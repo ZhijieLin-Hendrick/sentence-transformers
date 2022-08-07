@@ -535,8 +535,8 @@ class SentenceTransformer(nn.Sequential):
             a batch of tensors for the model
         """
         num_texts = len(batch[0].texts)
-        texts = [[] for _ in range(num_texts)]
-        labels = []
+        texts = [[] for _ in range(num_texts)]  # List[sents1:List[str], sents2:List[str], sents3:List[str]]
+        labels = [] # List[Union[int]]
 
         for example in batch:
             for idx, text in enumerate(example.texts):
@@ -548,8 +548,8 @@ class SentenceTransformer(nn.Sequential):
 
         sentence_features = []
         for idx in range(num_texts):
-            tokenized = self.tokenize(texts[idx])
-            sentence_features.append(tokenized)
+            tokenized = self.tokenize(texts[idx])   # texts[idx]: List[str]; tokenized: Dict[input_ids:Tensor(batchSize, batchMaxSeq), type_token_ids:xxx, attention_mask: xxx]
+            sentence_features.append(tokenized)     # sentence_features: List[sents1: Dict[xxx], sents2: Dict[xxx], sents3: Dict[xxx]]
 
         return sentence_features, labels
 
